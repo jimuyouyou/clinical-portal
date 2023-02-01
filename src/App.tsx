@@ -5,6 +5,24 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import ProTip from './ProTip';
 
+import fetchMock from 'fetch-mock';
+import initFetchMock from './initFetchMock';
+initFetchMock(fetchMock);
+
+async function ft() {
+  const res = await fetch('/login', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic '+ window.btoa('joshs' + ":" + 'joshs_pw'),
+    },
+    // body: JSON.stringify({a: 1, b: 'Textual content'})
+  });
+  console.log('lllog', await res.json())
+
+}
+
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
@@ -18,6 +36,8 @@ function Copyright() {
 }
 
 export default function App() {
+  ft();
+
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 4 }}>
