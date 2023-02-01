@@ -42,7 +42,7 @@ async function ft() {
 
 
 export default function App() {
-  ft();
+  // ft();
 
   const [logged, setLogged] = useState(false);
   const handleSignIn = () => {
@@ -50,6 +50,8 @@ export default function App() {
   };
 
   const handleSignOut = () => {
+    window.sessionStorage.removeItem('ft-session-token');
+    window.sessionStorage.removeItem('ft-logged-in-user');
     setLogged(false);
   };
 
