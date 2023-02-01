@@ -12,30 +12,43 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import PropTypes from 'prop-types';
 
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+
+const propTypes = {
+  onSignIn: PropTypes.func.isRequired,
+};
+
+type Props = PropTypes.InferProps<typeof propTypes>;
 
 const theme = createTheme();
-
-export default function SignIn() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+export default function SignIn(props: Props) {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      username: data.get('username'),
-      password: data.get('password'),
-    });
+    const username = data.get('username') as string;
+    const password = data.get('password') as string;
+    console.log('inputs', [username, password]);
+
+    if (username && password) {
+      const res = await fetch('/login', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Basic ' + window.btoa(username + ":" + password),
+        },
+        // body: JSON.stringify({a: 1, b: 'Textual content'})
+      });
+
+      const { sessionToken } = await res.json();
+      console.log('signin-token', sessionToken);
+      if (sessionToken) {
+        window.sessionStorage.setItem('ft-session-token', sessionToken);
+        window.sessionStorage.setItem('ft-logged-in-user', username);
+        props.onSignIn();
+      }
+    }
   };
 
   return (

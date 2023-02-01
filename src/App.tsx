@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -44,14 +44,25 @@ async function ft() {
 export default function App() {
   ft();
 
+  const [logged, setLogged] = useState(false);
+  const handleSignIn = () => {
+    setLogged(true);
+  };
+
+  const handleSignOut = () => {
+    setLogged(false);
+  };
+
+  const isLoggedIn = window.sessionStorage.getItem('ft-session-token') && window.sessionStorage.getItem('ft-logged-in-user');
+
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom>
           Clinical Portal
         </Typography>
-        <SignIn />
-        <Dashboard />
+        {!isLoggedIn && <SignIn onSignIn={handleSignIn} />}
+        {isLoggedIn && <Dashboard onSignOut={handleSignOut} />}
         <ProTip />
         <Copyright />
       </Box>
