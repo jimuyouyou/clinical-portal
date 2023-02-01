@@ -4,6 +4,9 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import ProTip from './ProTip';
+import SignIn from './SignIn';
+import Copyright from './Copyright';
+import Dashboard from './Dashboard';
 
 import { PatientList } from './types/PatientList.d';
 
@@ -17,11 +20,11 @@ async function ft() {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': 'Basic '+ window.btoa('joshs' + ":" + 'joshs_pw'),
+      'Authorization': 'Basic ' + window.btoa('joshs' + ":" + 'joshs_pw'),
     },
     // body: JSON.stringify({a: 1, b: 'Textual content'})
   });
-  const {sessionToken} = await res.json();
+  const { sessionToken } = await res.json();
   console.log('lllog', sessionToken)
 
   const res2 = await fetch('/patients', {
@@ -37,17 +40,6 @@ async function ft() {
   console.log('patients', patients);
 }
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}.
-    </Typography>
-  );
-}
 
 export default function App() {
   ft();
@@ -56,8 +48,10 @@ export default function App() {
     <Container maxWidth="sm">
       <Box sx={{ my: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom>
-          Create React App example with TypeScript
+          Clinical Portal
         </Typography>
+        <SignIn />
+        <Dashboard />
         <ProTip />
         <Copyright />
       </Box>
