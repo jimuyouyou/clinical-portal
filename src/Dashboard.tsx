@@ -9,13 +9,13 @@ import { Patient, PatientList } from './types/PatientList.d';
 import { Clinician } from './types/Clinician.d';
 
 
-const propTypes = {
-  onSignOut: PropTypes.func.isRequired,
-};
+// const propTypes = {
+//   onSignOut: PropTypes.func.isRequired,
+// };
 
-type Props = PropTypes.InferProps<typeof propTypes>;
+// type Props = PropTypes.InferProps<typeof propTypes>;
 
-export default function Dashboard(props: Props) {
+export default function Dashboard() {
   const [clinician, setClinician] = useState<Clinician>({ username: '', role: '', firstName: '', familyName: '' });
   const [patients, setPatients] = useState<PatientList>({ patients: [] });
 
@@ -65,21 +65,42 @@ export default function Dashboard(props: Props) {
   }, [window.sessionStorage.getItem('ft-logged-in-user')]);
 
   return (
-    <Container maxWidth="sm">
-      <Box sx={{ my: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          {clinician && clinician.preferredName && <div>
-            {clinician.title} {clinician.preferredName} ({clinician.firstName}) {clinician.middleName} {clinician.familyName} {clinician.suffix}
-          </div>
-          }
-          {clinician && !clinician.preferredName && <div>
-            {clinician.title} {clinician.firstName} {clinician.middleName} {clinician.familyName} {clinician.suffix}
-          </div>
-          }
-        </Typography>
-        <Button onClick={props.onSignOut}>
-          Logout
-        </Button>
+    <Container maxWidth="lg">
+      <Box
+        sx={{
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}
+      >
+        <Box
+          sx={{
+            // marginTop: 8,
+            // display: 'flex',
+            // flexDirection: 'column',
+            // alignItems: 'center',
+          }}
+        >
+          <Typography variant="h5" component="h1" gutterBottom>
+            Clinical Portal
+          </Typography>
+        </Box>
+
+        <Box sx={{
+          //  my: 4
+        }}>
+          <Typography variant="subtitle1" component="h1" gutterBottom>
+            {clinician && clinician.preferredName && <div>
+              {clinician.title} {clinician.preferredName} ({clinician.firstName}) {clinician.middleName} {clinician.familyName} {clinician.suffix}
+            </div>
+            }
+            {clinician && !clinician.preferredName && <div>
+              {clinician.title} {clinician.firstName} {clinician.middleName} {clinician.familyName} {clinician.suffix}
+            </div>
+            }
+          </Typography>
+        </Box>
       </Box>
       <PatientTabs patients={patients.patients} />
     </Container>

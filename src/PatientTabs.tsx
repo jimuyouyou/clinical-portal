@@ -79,7 +79,7 @@ export default function PatientTabs(props: any) {
         <Tabs value={value} onChange={handleChange} centered aria-label="basic tabs example">
           {patients && patients.map((patient: Patient, ind: number) => {
             return (
-              <Tab key={patient.id} label={patient.name} />
+              <Tab key={patient.id} label={`${patient.name} (${patient.id})`} />
             )
           })}
         </Tabs>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import ProTip from './ProTip';
 import SignIn from './SignIn';
@@ -50,22 +51,47 @@ export default function App() {
   };
 
   const handleSignOut = () => {
+    console.log('handleSignOut');
     window.sessionStorage.removeItem('ft-session-token');
     window.sessionStorage.removeItem('ft-logged-in-user');
     setLogged(false);
   };
 
   const isLoggedIn = window.sessionStorage.getItem('ft-session-token') && window.sessionStorage.getItem('ft-logged-in-user');
+  console.log('isLoggedIn', isLoggedIn);
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="lg">
+
+      {isLoggedIn &&
+        <Button onClick={handleSignOut} sx={{
+          marginTop: -6,
+          float: 'right',
+        }}>
+          Logout
+        </Button>
+      }
       <Box sx={{ my: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Clinical Portal
-        </Typography>
+
+        {!isLoggedIn && <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Typography variant="h4" component="h1" gutterBottom>
+            Clinical Portal
+          </Typography>
+        </Box>
+        }
+
         {!isLoggedIn && <SignIn onSignIn={handleSignIn} />}
-        {isLoggedIn && <Dashboard onSignOut={handleSignOut} />}
-        <ProTip />
+
+        {isLoggedIn && <Dashboard />}
+
+        {/* <ProTip /> */}
         <Copyright />
       </Box>
     </Container>
