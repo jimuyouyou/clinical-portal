@@ -32,12 +32,13 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-// function a11yProps(index: number) {
-//   return {
-//     id: `simple-tab-${index}`,
-//     'aria-controls': `simple-tabpanel-${index}`,
-//   };
-// }
+const imgLinks = [
+  'https://img.freepik.com/free-vector/infographic-element-with-options_79603-159.jpg?w=740&t=st=1675306399~exp=1675306999~hmac=0f7db917ce23b5dec2b08cab68601e969f935420257dc032426e6e242266a50b',
+  'https://img.freepik.com/free-vector/flat-circular-diagram-infographic_23-2148973773.jpg?w=826&t=st=1675306443~exp=1675307043~hmac=685566d5921edb18a2bce646ead9aa812d8b17b7c5b68806c3a473afecf93a2c',
+  'https://img.freepik.com/free-vector/infographic-steps-collection-flat-design_52683-13833.jpg?w=826&t=st=1675306507~exp=1675307107~hmac=9d5292cde8af404260654670b05cd56a36aa9019e15a0012177af84a24be89a9',
+];
+
+const getImageLink = (value: number) => { return imgLinks[value % imgLinks.length]; }
 
 export default function PatientTabs(props: any) {
   const [value, setValue] = useState(0);
@@ -49,29 +50,42 @@ export default function PatientTabs(props: any) {
   const handleChange = async (event: React.SyntheticEvent | null, newValue: number) => {
     const patient = patients.find((p: Patient, ind: number) => ind === newValue);
     const patientId = patient && patient.id;
-    const sessionToken = window.sessionStorage.getItem('ft-session-token') || '';
-    console.log('sessionToken', [sessionToken, newValue, patient, patients]);
-    const res = await fetch(`/patient-details/${patientId}`, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': sessionToken,
-      },
-      // body: JSON.stringify({a: 1, b: 'Textual content'})
-    });
-    const patientDetailData: PatientDetail = await res.json();
-    console.log('patientDetailData', patientDetailData);
-    setPatientDetail(patientDetailData);
-    setValue(newValue);
+    const cache = window.sessionStorage.getItem(`patient|${patientId}`);
+    if (cache) {
+      const patientDetailData: PatientDetail = JSON.parse(cache);
+      console.log('patientDetailData0', patientDetailData);
+      if (patientDetailData) {
+        setPatientDetail(patientDetailData);
+        setValue(newValue);
+      }
+    } else {
+      const sessionToken = window.sessionStorage.getItem('ft-session-token') || '';
+      console.log('sessionToken', [sessionToken, newValue, patient, patients]);
+      const res = await fetch(`/patient-details/${patientId}`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': sessionToken,
+        },
+      });
+      const patientDetailData: PatientDetail = await res.json();
+      console.log('patientDetailData', patientDetailData);
+      if (patientDetailData) {
+        window.sessionStorage.setItem(`patient|${patientId}`, JSON.stringify(patientDetailData));
+        setPatientDetail(patientDetailData);
+        setValue(newValue);
+      }
+    }
   };
 
   useEffect(() => {
     // init tabs to fetch 1st tab content
-    if (patientDetail && !patientDetail.firstName) {
+    if (patientDetail && !patientDetail.firstName && patients.length > 0) {
       handleChange(null, 0);
     }
   });
+
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -88,14 +102,17 @@ export default function PatientTabs(props: any) {
       <TabPanel value={0} index={0}>
         {patientDetail && patientDetail.firstName &&
           <div>
-            {patientDetail && patientDetail.preferredName && <div>
-              {patientDetail.title} {patientDetail.preferredName} ({patientDetail.firstName}) {patientDetail.middleName} {patientDetail.familyName} {patientDetail.suffix}
+            {patientDetail && <div>
+              {patientDetail.title} {patientDetail.preferredName ? `${patientDetail.preferredName} (${patientDetail.firstName})` : patientDetail.firstName} {patientDetail.middleName} {patientDetail.familyName} {patientDetail.suffix}
             </div>
             }
-            {patientDetail && !patientDetail.preferredName && <div>
-              {patientDetail.title} {patientDetail.firstName} {patientDetail.middleName} {patientDetail.familyName} {patientDetail.suffix}
-            </div>
-            }
+            <img src={getImageLink(value)} style={{ width: '100%' }} alt="Cover designed by Freepik" />
+            <div style={{
+              fontSize: 'x-small', position: 'relative',
+              textAlign: 'right',
+              marginTop: '-25px',
+              marginRight: '5px'
+            }}>Cover designed by Freepik</div>
           </div>
         }
       </TabPanel>

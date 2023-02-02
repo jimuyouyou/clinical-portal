@@ -126,10 +126,10 @@ export default function SignIn(props: Props) {
               {...register('password')}
             />
             {notMatch && <Alert severity="error">Invalid username or password!</Alert>}
-            <FormControlLabel
+            {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
-            />
+            /> */}
             <Button
               type="submit"
               fullWidth

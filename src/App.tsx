@@ -15,46 +15,22 @@ import fetchMock from 'fetch-mock';
 import initFetchMock from './initFetchMock';
 initFetchMock(fetchMock);
 
-async function ft() {
-  const res = await fetch('/login', {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': 'Basic ' + window.btoa('joshs' + ":" + 'joshs_pw'),
-    },
-    // body: JSON.stringify({a: 1, b: 'Textual content'})
-  });
-  const { sessionToken } = await res.json();
-  console.log('lllog', sessionToken)
-
-  const res2 = await fetch('/patients', {
-    method: 'GET',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': sessionToken,
-    },
-    // body: JSON.stringify({a: 1, b: 'Textual content'})
-  });
-  const patients: PatientList = await res2.json();
-  console.log('patients', patients);
-}
-
-
 export default function App() {
-  // ft();
-
-  const [logged, setLogged] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const handleSignIn = () => {
-    setLogged(true);
+    setRefresh(!refresh);
   };
 
   const handleSignOut = () => {
     console.log('handleSignOut');
     window.sessionStorage.removeItem('ft-session-token');
     window.sessionStorage.removeItem('ft-logged-in-user');
-    setLogged(false);
+
+    Object.keys(window.sessionStorage).forEach((key) => {
+      if (key.startsWith('patient|')) window.sessionStorage.removeItem(key);
+    });
+
+    setRefresh(!refresh);
   };
 
   const isLoggedIn = window.sessionStorage.getItem('ft-session-token') && window.sessionStorage.getItem('ft-logged-in-user');
