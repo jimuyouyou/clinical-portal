@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/clinical-portal/static/css/main.f35d004b.css",
-    "main.js": "/clinical-portal/static/js/main.94647534.js",
+    "main.css": "/clinical-portal/static/css/main.4bdbc711.css",
+    "main.js": "/clinical-portal/static/js/main.4e9b598b.js",
     "index.html": "/clinical-portal/index.html",
-    "main.f35d004b.css.map": "/clinical-portal/static/css/main.f35d004b.css.map",
-    "main.94647534.js.map": "/clinical-portal/static/js/main.94647534.js.map"
+    "main.4bdbc711.css.map": "/clinical-portal/static/css/main.4bdbc711.css.map",
+    "main.4e9b598b.js.map": "/clinical-portal/static/js/main.4e9b598b.js.map"
   },
   "entrypoints": [
-    "static/css/main.f35d004b.css",
-    "static/js/main.94647534.js"
+    "static/css/main.4bdbc711.css",
+    "static/js/main.4e9b598b.js"
   ]
 }
