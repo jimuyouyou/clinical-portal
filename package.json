@@ -2,6 +2,7 @@
   "name": "create-react-app-with-typescript",
   "version": "5.0.0",
   "private": true,
+  "homepage": "https://jimuyouyou.github.io/clinical-portal",
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
@@ -11,6 +12,7 @@
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "fetch-mock": "^9.11.0",
+    "gh-pages": "^5.0.0",
     "react": "latest",
     "react-dom": "latest",
     "react-hook-form": "^7.43.0",
@@ -19,6 +21,8 @@
     "zod": "^3.20.2"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
