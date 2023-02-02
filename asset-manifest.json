@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/clinical-portal/static/css/main.f35d004b.css",
+    "main.js": "/clinical-portal/static/js/main.94647534.js",
+    "index.html": "/clinical-portal/index.html",
+    "main.f35d004b.css.map": "/clinical-portal/static/css/main.f35d004b.css.map",
+    "main.94647534.js.map": "/clinical-portal/static/js/main.94647534.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f35d004b.css",
+    "static/js/main.94647534.js"
+  ]
+}
