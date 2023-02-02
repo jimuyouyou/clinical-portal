@@ -10,7 +10,7 @@ npm start
 
 or visit online demo: 
 
-- [![Clinical Portal](https://jimuyouyou.github.io/clinical-portal)
+- [Clinical Portal](https://jimuyouyou.github.io/clinical-portal)
 
 ## Tech stack
 - React
@@ -28,6 +28,12 @@ or visit online demo:
 - [React-Router](https://reactrouter.com/en/main) for routing
 - [Redux](https://redux.js.org/) for react state management
 - [Sass](https://sass-lang.com/) for styling
+- Client side session and cookie management
+- Charts for each patient
+- Web Accessibilty improvement
+- Jest for testing
+- Multiple themes support
+- Multiple languages support
 
 ## Static server deployment to github pages
 - npm run deploy
