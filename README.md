@@ -10,7 +10,8 @@ npm start
 
 or visit online demo: 
 
-- [Clinical Portal](https://jimuyouyou.github.io/clinical-portal)
+[Clinical Portal](https://jimuyouyou.github.io/clinical-portal)
+![Login Page](https://raw.githubusercontent.com/jimuyouyou/clinical-portal/main/public/login.jpeg  "Screenshots")
 
 ## Tech stack
 - React
