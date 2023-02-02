@@ -14,17 +14,17 @@ or visit online demo:
 
 ![Login Page](https://raw.githubusercontent.com/jimuyouyou/clinical-portal/main/public/login.jpeg  "Screenshots")
 
-## Tech stack
-- React
-- Material UI
-- TypeScript
-- Create React App
-
 ### Login page
 | username | password |
 | -------- | -------- |
 | joshs    | joshs_pw |
 | amyb     | amyb_pw  |
+
+## Tech stack
+- React
+- Material UI
+- TypeScript
+- Create React App
 
 ## Todo list?
 - [React-Router](https://reactrouter.com/en/main) for routing
