@@ -1,6 +1,7 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
+import Alert from '@mui/material/Alert';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -12,6 +13,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { literal, object, string, TypeOf } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+
 import PropTypes from 'prop-types';
 
 
@@ -21,15 +27,35 @@ const propTypes = {
 
 type Props = PropTypes.InferProps<typeof propTypes>;
 
+const registerSchema = object({
+  username: string()
+    .min(1, 'Username is required')
+    .max(64, 'Username must be less than 64 characters'),
+  password: string()
+    .min(1, 'Password is required')
+    .min(4, 'Password must be more than 4 characters')
+    .max(32, 'Password must be less than 32 characters'),
+});
+
+type RegisterInput = TypeOf<typeof registerSchema>;
+
+
 const theme = createTheme();
 export default function SignIn(props: Props) {
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const username = data.get('username') as string;
-    const password = data.get('password') as string;
-    console.log('inputs', [username, password]);
+  const [notMatch, setNotMatch] = useState(false);
 
+  const {
+    register,
+    formState: { errors, isSubmitSuccessful },
+    reset,
+    handleSubmit,
+  } = useForm<RegisterInput>({
+    resolver: zodResolver(registerSchema),
+  });
+
+  const handleFormSubmit = async (values: any) => {
+    const { username, password } = values;
+    console.log('inputs', [username, password]);
     if (username && password) {
       const res = await fetch('/login', {
         method: 'POST',
@@ -38,7 +64,6 @@ export default function SignIn(props: Props) {
           'Content-Type': 'application/json',
           'Authorization': 'Basic ' + window.btoa(username + ":" + password),
         },
-        // body: JSON.stringify({a: 1, b: 'Textual content'})
       });
 
       const { sessionToken } = await res.json();
@@ -47,6 +72,8 @@ export default function SignIn(props: Props) {
         window.sessionStorage.setItem('ft-session-token', sessionToken);
         window.sessionStorage.setItem('ft-logged-in-user', username);
         props.onSignIn();
+      } else {
+        setNotMatch(true);
       }
     }
   };
@@ -69,27 +96,36 @@ export default function SignIn(props: Props) {
           <Typography component="h1" variant="h5">
             Sign In
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={handleSubmit(handleFormSubmit)} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
               fullWidth
               id="username"
               label="Username"
-              name="username"
+              // name="username"
               autoComplete="username"
               autoFocus
+
+              error={!!errors['username']}
+              helperText={errors['username'] ? errors['username'].message : ''}
+              {...register('username')}
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              name="password"
+              // name="password"
               label="Password"
               type="password"
               id="password"
               autoComplete="current-password"
+
+              error={!!errors['password']}
+              helperText={errors['password'] ? errors['password'].message : ''}
+              {...register('password')}
             />
+            {notMatch && <Alert severity="error">Invalid username or password!</Alert>}
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
