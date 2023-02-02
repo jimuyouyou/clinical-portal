@@ -53,14 +53,12 @@ export default function PatientTabs(props: any) {
     const cache = window.sessionStorage.getItem(`patient|${patientId}`);
     if (cache) {
       const patientDetailData: PatientDetail = JSON.parse(cache);
-      console.log('patientDetailData0', patientDetailData);
       if (patientDetailData) {
         setPatientDetail(patientDetailData);
         setValue(newValue);
       }
     } else {
       const sessionToken = window.sessionStorage.getItem('ft-session-token') || '';
-      console.log('sessionToken', [sessionToken, newValue, patient, patients]);
       const res = await fetch(`/patient-details/${patientId}`, {
         method: 'GET',
         headers: {
@@ -70,7 +68,6 @@ export default function PatientTabs(props: any) {
         },
       });
       const patientDetailData: PatientDetail = await res.json();
-      console.log('patientDetailData', patientDetailData);
       if (patientDetailData) {
         window.sessionStorage.setItem(`patient|${patientId}`, JSON.stringify(patientDetailData));
         setPatientDetail(patientDetailData);

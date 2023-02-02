@@ -55,7 +55,6 @@ export default function SignIn(props: Props) {
 
   const handleFormSubmit = async (values: any) => {
     const { username, password } = values;
-    console.log('inputs', [username, password]);
     if (username && password) {
       const res = await fetch('/login', {
         method: 'POST',
@@ -67,7 +66,6 @@ export default function SignIn(props: Props) {
       });
 
       const { sessionToken } = await res.json();
-      console.log('signin-token', sessionToken);
       if (sessionToken) {
         window.sessionStorage.setItem('ft-session-token', sessionToken);
         window.sessionStorage.setItem('ft-logged-in-user', username);

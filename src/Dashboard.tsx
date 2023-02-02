@@ -22,7 +22,6 @@ export default function Dashboard() {
   useEffect(() => {
     async function fetchMyAPI() {
       const sessionToken = window.sessionStorage.getItem('ft-session-token') || '';
-      console.log('sessionToken', sessionToken);
       const res = await fetch('/clinician-details', {
         method: 'GET',
         headers: {
@@ -30,10 +29,8 @@ export default function Dashboard() {
           'Content-Type': 'application/json',
           'Authorization': sessionToken,
         },
-        // body: JSON.stringify({a: 1, b: 'Textual content'})
       });
       const clinicianData: Clinician = await res.json();
-      console.log('clinician', clinician);
       setClinician(clinicianData);
     }
 
@@ -45,7 +42,6 @@ export default function Dashboard() {
   useEffect(() => {
     async function fetchMyAPI() {
       const sessionToken = window.sessionStorage.getItem('ft-session-token') || '';
-      console.log('sessionToken', sessionToken);
       const res = await fetch('/patients', {
         method: 'GET',
         headers: {
@@ -56,7 +52,6 @@ export default function Dashboard() {
         // body: JSON.stringify({a: 1, b: 'Textual content'})
       });
       const patientsData: PatientList = await res.json();
-      console.log('patientsData', patientsData);
       setPatients(patientsData);
     }
 
@@ -91,13 +86,10 @@ export default function Dashboard() {
           //  my: 4
         }}>
           <Typography variant="subtitle1" component="h1" gutterBottom>
-            {clinician && clinician.preferredName && <div>
-              {clinician.title} {clinician.preferredName} ({clinician.firstName}) {clinician.middleName} {clinician.familyName} {clinician.suffix}
-            </div>
-            }
-            {clinician && !clinician.preferredName && <div>
-              {clinician.title} {clinician.firstName} {clinician.middleName} {clinician.familyName} {clinician.suffix}
-            </div>
+            {clinician &&
+              <div>
+                {clinician.title} {clinician.preferredName ? `${clinician.preferredName} (${clinician.firstName})` : clinician.firstName} {clinician.middleName} {clinician.familyName} {clinician.suffix}
+              </div>
             }
           </Typography>
         </Box>

@@ -22,7 +22,6 @@ export default function App() {
   };
 
   const handleSignOut = () => {
-    console.log('handleSignOut');
     window.sessionStorage.removeItem('ft-session-token');
     window.sessionStorage.removeItem('ft-logged-in-user');
 
@@ -34,7 +33,6 @@ export default function App() {
   };
 
   const isLoggedIn = window.sessionStorage.getItem('ft-session-token') && window.sessionStorage.getItem('ft-logged-in-user');
-  console.log('isLoggedIn', isLoggedIn);
 
   return (
     <Container maxWidth="lg">
