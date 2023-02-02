@@ -106,13 +106,12 @@ export default function PatientTabs(props: any) {
               {patientDetail.title} {patientDetail.preferredName ? `${patientDetail.preferredName} (${patientDetail.firstName})` : patientDetail.firstName} {patientDetail.middleName} {patientDetail.familyName} {patientDetail.suffix}
             </div>
             }
-            <img src={getImageLink(value)} style={{ width: '100%' }} alt="Cover designed by Freepik" />
-            <div style={{
-              fontSize: 'x-small', position: 'relative',
-              textAlign: 'right',
-              marginTop: '-25px',
-              marginRight: '5px'
-            }}>Cover designed by Freepik</div>
+            <Box>
+              <img className="demoChart" src={getImageLink(value)} style={{ width: '100%' }} alt="Cover designed by Freepik" />
+              <div style={{
+                fontSize: 'x-small'
+              }}>Cover designed by Freepik</div>
+            </Box>
           </div>
         }
       </TabPanel>
