@@ -31,6 +31,7 @@ or visit online demo:
 - [Redux](https://redux.js.org/) for react state management
 - [Sass](https://sass-lang.com/) for styling
 - Client side session and cookie management
+- Pure react components without states
 - Charts for each patient
 - Web Accessibilty improvement
 - Jest for testing

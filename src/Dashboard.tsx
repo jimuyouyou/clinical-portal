@@ -92,6 +92,13 @@ export default function Dashboard() {
               </div>
             }
           </Typography>
+          <Typography variant="subtitle1" component="h1" gutterBottom>
+            {clinician &&
+              <div className='role-user'>
+                {clinician.role}
+              </div>
+            }
+          </Typography>
         </Box>
       </Box>
       <PatientTabs patients={patients.patients} />

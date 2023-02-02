@@ -32,14 +32,6 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-const imgLinks = [
-  'https://img.freepik.com/free-vector/infographic-element-with-options_79603-159.jpg?w=740&t=st=1675306399~exp=1675306999~hmac=0f7db917ce23b5dec2b08cab68601e969f935420257dc032426e6e242266a50b',
-  'https://img.freepik.com/free-vector/flat-circular-diagram-infographic_23-2148973773.jpg?w=826&t=st=1675306443~exp=1675307043~hmac=685566d5921edb18a2bce646ead9aa812d8b17b7c5b68806c3a473afecf93a2c',
-  'https://img.freepik.com/free-vector/infographic-steps-collection-flat-design_52683-13833.jpg?w=826&t=st=1675306507~exp=1675307107~hmac=9d5292cde8af404260654670b05cd56a36aa9019e15a0012177af84a24be89a9',
-];
-
-const getImageLink = (value: number) => { return imgLinks[value % imgLinks.length]; }
-
 export default function PatientTabs(props: any) {
   const [value, setValue] = useState(0);
   const [patientDetail, setPatientDetail] = useState<PatientDetail>({
@@ -87,10 +79,10 @@ export default function PatientTabs(props: any) {
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} centered aria-label="basic tabs example">
+        <Tabs value={value} onChange={handleChange} className='tab-wrapper' centered aria-label="basic tabs example">
           {patients && patients.map((patient: Patient, ind: number) => {
             return (
-              <Tab key={patient.id} label={`${patient.name} (${patient.id})`} />
+              <Tab key={patient.id} className='tab-button' label={`${patient.name} (${patient.id})`} />
             )
           })}
         </Tabs>
@@ -98,17 +90,101 @@ export default function PatientTabs(props: any) {
 
       <TabPanel value={0} index={0}>
         {patientDetail && patientDetail.firstName &&
-          <div>
-            {patientDetail && <div>
+          <div className='name-container'>
+            {patientDetail && <div className='full-name'>
               {patientDetail.title} {patientDetail.preferredName ? `${patientDetail.preferredName} (${patientDetail.firstName})` : patientDetail.firstName} {patientDetail.middleName} {patientDetail.familyName} {patientDetail.suffix}
             </div>
             }
-            <Box>
-              <img className="demoChart" src={getImageLink(value)} style={{ width: '100%' }} alt="Cover designed by Freepik" />
-              <div style={{
-                fontSize: 'x-small'
-              }}>Cover designed by Freepik</div>
-            </Box>
+
+            <div className='name-detail'>
+              {patientDetail.title &&
+                <div className='name-item'>
+                  <span className="name-label">
+                    Title:
+                  </span>
+                  <span className='name-content'>
+                    {patientDetail.title}
+                  </span>
+                </div>
+              }
+
+              {patientDetail.firstName &&
+                <div className='name-item'>
+                  <span className="name-label">
+                    First Name:
+                  </span>
+                  <span className='name-content'>
+                    {patientDetail.firstName}
+                  </span>
+                </div>
+              }
+
+              {patientDetail.preferredName &&
+                <div className='name-item'>
+                  <span className="name-label">
+                    Preferred Name:
+                  </span>
+                  <span className='name-content'>
+                    {patientDetail.preferredName}
+                  </span>
+                </div>
+              }
+
+              {patientDetail.middleName &&
+                <div className='name-item'>
+                  <span className="name-label">
+                    Middle Name:
+                  </span>
+                  <span className='name-content'>
+                    {patientDetail.middleName}
+                  </span>
+                </div>
+              }
+
+              {patientDetail.familyName &&
+                <div className='name-item'>
+                  <span className="name-label">
+                    Family Name:
+                  </span>
+                  <span className='name-content'>
+                    {patientDetail.familyName}
+                  </span>
+                </div>
+              }
+
+              {patientDetail.suffix &&
+                <div className='name-item'>
+                  <span className="name-label">
+                    Suffix:
+                  </span>
+                  <span className='name-content'>
+                    {patientDetail.suffix}
+                  </span>
+                </div>
+              }
+
+              {patientDetail.age &&
+                <div className='name-item'>
+                  <span className="name-label">
+                    Age:
+                  </span>
+                  <span className='name-content'>
+                    {patientDetail.age}
+                  </span>
+                </div>
+              }
+
+              {patientDetail.sex &&
+                <div className='name-item'>
+                  <span className="name-label">
+                    Sex:
+                  </span>
+                  <span className='name-content'>
+                    {patientDetail.sex}
+                  </span>
+                </div>
+              }
+            </div>
           </div>
         }
       </TabPanel>
